@@ -77,6 +77,41 @@
       background: #3ddc97; display: inline-block;
       box-shadow: 0 0 0 4px rgba(61,220,151,.15);
     }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .sound {
+      position: relative;
+      display: flex; align-items: center;
+    }
+    .sound-btn {
+      width: 42px; height: 42px; border-radius: 999px;
+      border: 1px solid #3a2a55;
+      background: transparent; color: var(--text);
+      display: grid; place-items: center;
+    }
+    .sound-btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .sound-btn.muted { color: #777; }
+    .vol-wrap {
+      position: absolute;
+      right: -6px;
+      top: 100%;
+      padding: 8px 10px 12px;
+      display: none;
+      z-index: 50;
+    }
+    .vol-box {
+      background: #111;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 10px;
+    }
+    .sound:hover .vol-wrap,
+    .sound:focus-within .vol-wrap { display: block; }
+    .vol-wrap input[type="range"] {
+      writing-mode: vertical-lr;
+      direction: rtl;
+      width: 18px; height: 88px;
+      accent-color: var(--accent);
+    }
 
     .hero { padding: 88px 0 36px; }
     .pill {
@@ -199,6 +234,7 @@
     }
     .project h3 { font-size: 26px; font-family: "Bebas Neue", sans-serif; letter-spacing: .04em; }
     .project .desc { color: var(--muted); font-size: 14px; }
+    .gallery { position: relative; }
     .shots {
       display: flex;
       overflow-x: auto;
@@ -206,6 +242,17 @@
       scrollbar-width: none;
     }
     .shots::-webkit-scrollbar { display: none; }
+    .shot-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.55);
+      color: #fff; z-index: 2;
+    }
+    .shot-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .shot-btn.prev { left: 12px; }
+    .shot-btn.next { right: 12px; }
+    .dots i { cursor: pointer; }
     .shot {
       flex: 0 0 100%;
       scroll-snap-align: start;
@@ -275,7 +322,21 @@
         <a href="#o-mnie">O MNIE</a>
         <a href="#kontakt">KONTAKT</a>
       </nav>
-      <a class="hire" href="#kontakt"><i></i> HIRE ME</a>
+      <div class="nav-right">
+        <div class="sound" id="sound">
+          <button class="sound-btn" id="mute-btn" type="button" aria-label="Muzyka">
+            <svg id="ico-on" viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm2.5 0c0 2.9-1.7 5.4-4.1 6.6l.8 1.8A8.5 8.5 0 0 0 21.5 12 8.5 8.5 0 0 0 15.7 3.6l-.8 1.8A6.5 6.5 0 0 1 19 12z"/></svg>
+            <svg id="ico-off" viewBox="0 0 24 24" style="display:none"><path d="M16.5 12a4.5 4.5 0 0 0-2.5-4v2.2L16.3 12zm3.5 0c0-1.8-.6-3.4-1.6-4.7l-1.1 1.1A6.3 6.3 0 0 1 19 12c0 1.1-.3 2.2-.7 3.1l1.2 1.2A8.4 8.4 0 0 0 21.5 12zM4.3 3 3 4.3 7.7 9H3v6h4l5 5v-6.7l4.7 4.7 1.3-1.3L4.3 3zM12 5l-1.3 1.3L12 7.6V5z"/></svg>
+          </button>
+          <div class="vol-wrap">
+            <div class="vol-box">
+              <input id="vol" type="range" min="0" max="100" value="40" />
+            </div>
+          </div>
+        </div>
+        <a class="hire" href="#kontakt"><i></i> HIRE ME</a>
+      </div>
+      <audio id="bgm" src="music.mp3" loop preload="auto"></audio>
     </div>
   </header>
 
@@ -322,9 +383,13 @@
             <h3>Baza Frakcji SARA</h3>
             <p class="desc">Kilka ujęć tej samej bazy — przesuń zdjęcie w bok.</p>
           </div>
-          <div class="shots">
-            <div class="shot"><img src="images/mapa-1.jpg" alt="SARA 1"></div>
-            <div class="shot"><img src="images/mapa-2.jpg" alt="SARA 2"></div>
+          <div class="gallery">
+            <button class="shot-btn prev" type="button">←</button>
+            <button class="shot-btn next" type="button">→</button>
+            <div class="shots">
+              <div class="shot"><img src="images/mapa-1.jpg" alt="SARA 1"></div>
+              <div class="shot"><img src="images/mapa-2.jpg" alt="SARA 2"></div>
+            </div>
           </div>
           <div class="dots"><i class="on"></i><i></i></div>
         </article>
@@ -346,9 +411,13 @@
             <h3>Parking Doherty</h3>
             <p class="desc">Customowy parking obok peronu. W karcie są 2 ujęcia.</p>
           </div>
-          <div class="shots">
-            <div class="shot"><img src="images/mapa-4.jpg" alt="Parking 1"></div>
-            <div class="shot"><img src="images/mapa-5.jpg" alt="Parking 2"></div>
+          <div class="gallery">
+            <button class="shot-btn prev" type="button">←</button>
+            <button class="shot-btn next" type="button">→</button>
+            <div class="shots">
+              <div class="shot"><img src="images/mapa-4.jpg" alt="Parking 1"></div>
+              <div class="shot"><img src="images/mapa-5.jpg" alt="Parking 2"></div>
+            </div>
           </div>
           <div class="dots"><i class="on"></i><i></i></div>
         </article>
@@ -371,7 +440,7 @@
         <div>
           <div class="sec-kicker">/ 03 — SKRYPTY</div>
           <h2>Przykładowe <em>skrypty</em></h2>
-          <p class="sub">Skrypty robione z nudów, małe i proste</p>
+          <p class="sub">Proste skrypty, robione amatorsko.</p>
         </div>
         <div class="slider-nav">
           <button class="arrow" id="scripts-prev" type="button" aria-label="Poprzedni skrypt">←</button>
@@ -386,9 +455,13 @@
             <h3>System frakcji</h3>
             <p class="desc">Duty, magazyn, uprawnienia i logi. Przykładowa karta — podmień opis.</p>
           </div>
-          <div class="shots">
-            <div class="shot"><img src="images/skrypt-1.jpg" alt="System frakcji"></div>
-            <div class="shot"><img src="images/skrypt-2.jpg" alt="System frakcji 2"></div>
+          <div class="gallery">
+            <button class="shot-btn prev" type="button">←</button>
+            <button class="shot-btn next" type="button">→</button>
+            <div class="shots">
+              <div class="shot"><img src="images/skrypt-1.jpg" alt="System frakcji"></div>
+              <div class="shot"><img src="images/skrypt-2.jpg" alt="System frakcji 2"></div>
+            </div>
           </div>
           <div class="dots"><i class="on"></i><i></i></div>
         </article>
@@ -410,9 +483,13 @@
             <h3>Panel biznesu</h3>
             <p class="desc">Stan magazynu, pracownicy, utarg. Dwa ujęcia w tej samej karcie.</p>
           </div>
-          <div class="shots">
-            <div class="shot"><img src="images/skrypt-4.jpg" alt="Biznes 1"></div>
-            <div class="shot"><img src="images/skrypt-5.jpg" alt="Biznes 2"></div>
+          <div class="gallery">
+            <button class="shot-btn prev" type="button">←</button>
+            <button class="shot-btn next" type="button">→</button>
+            <div class="shots">
+              <div class="shot"><img src="images/skrypt-4.jpg" alt="Biznes 1"></div>
+              <div class="shot"><img src="images/skrypt-5.jpg" alt="Biznes 2"></div>
+            </div>
           </div>
           <div class="dots"><i class="on"></i><i></i></div>
         </article>
@@ -474,6 +551,38 @@
   </footer>
 
   <script>
+    const audio = document.getElementById("bgm");
+    const muteBtn = document.getElementById("mute-btn");
+    const vol = document.getElementById("vol");
+    const icoOn = document.getElementById("ico-on");
+    const icoOff = document.getElementById("ico-off");
+    const savedVol = localStorage.getItem("dave-vol");
+    const savedMute = localStorage.getItem("dave-mute") === "1";
+    if (savedVol !== null) vol.value = savedVol;
+    audio.volume = Number(vol.value) / 100;
+    audio.muted = savedMute;
+    const paint = () => {
+      const off = audio.muted || audio.volume === 0;
+      muteBtn.classList.toggle("muted", off);
+      icoOn.style.display = off ? "none" : "block";
+      icoOff.style.display = off ? "block" : "none";
+    };
+    paint();
+    audio.play().catch(() => {});
+    muteBtn.onclick = () => {
+      audio.muted = !audio.muted;
+      if (!audio.muted) audio.play().catch(() => {});
+      localStorage.setItem("dave-mute", audio.muted ? "1" : "0");
+      paint();
+    };
+    vol.oninput = () => {
+      audio.volume = Number(vol.value) / 100;
+      if (audio.volume > 0 && audio.muted) audio.muted = false;
+      localStorage.setItem("dave-vol", vol.value);
+      localStorage.setItem("dave-mute", audio.muted ? "1" : "0");
+      paint();
+    };
+
     const works = document.getElementById("works");
     const step = () => {
       const card = works.querySelector(".project");
@@ -492,10 +601,19 @@
 
     document.querySelectorAll(".project").forEach((card) => {
       const shots = card.querySelector(".shots");
+      if (!shots) return;
       const dots = [...card.querySelectorAll(".dots i")];
-      if (!shots || !dots.length) return;
+      const go = (i) => {
+        const max = shots.children.length - 1;
+        const n = Math.max(0, Math.min(max, i));
+        shots.scrollTo({ left: n * shots.clientWidth, behavior: "smooth" });
+      };
+      const current = () => Math.round(shots.scrollLeft / Math.max(shots.clientWidth, 1));
+      card.querySelector(".shot-btn.prev")?.addEventListener("click", (e) => { e.stopPropagation(); go(current() - 1); });
+      card.querySelector(".shot-btn.next")?.addEventListener("click", (e) => { e.stopPropagation(); go(current() + 1); });
+      dots.forEach((d, n) => d.addEventListener("click", () => go(n)));
       shots.addEventListener("scroll", () => {
-        const i = Math.round(shots.scrollLeft / shots.clientWidth);
+        const i = current();
         dots.forEach((d, n) => d.classList.toggle("on", n === i));
       });
     });
