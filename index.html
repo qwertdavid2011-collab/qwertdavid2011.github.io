@@ -161,17 +161,36 @@
     h2 em { font-style: normal; color: var(--accent); }
     .sub { color: var(--muted); margin-bottom: 28px; max-width: 560px; }
 
+    .works-head {
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+      margin-bottom: 18px;
+    }
+    .slider-nav { display: flex; gap: 8px; flex-shrink: 0; }
+    .arrow {
+      width: 44px; height: 44px; border-radius: 999px;
+      border: 1px solid #2a2a2a; background: #0c0c0c; color: #fff;
+    }
+    .arrow:hover { border-color: var(--accent); color: var(--accent); }
+
+    .works {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 4px;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: #444 transparent;
+    }
     .project {
-      margin: 0 0 28px;
+      flex: 0 0 min(86%, 920px);
+      scroll-snap-align: start;
       border: 1px solid var(--line);
       background: var(--panel);
       border-radius: 18px;
       overflow: hidden;
     }
-    .project-head {
-      display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
-      padding: 20px 22px 14px;
-    }
+    .project-head { padding: 20px 22px 12px; }
     .tag {
       display: inline-block;
       font-size: 11px; font-weight: 800; letter-spacing: .1em;
@@ -179,38 +198,35 @@
       margin-bottom: 6px;
     }
     .project h3 { font-size: 26px; font-family: "Bebas Neue", sans-serif; letter-spacing: .04em; }
-    .project .desc { color: var(--muted); font-size: 14px; max-width: 520px; }
-    .slider-nav { display: flex; gap: 8px; }
-    .arrow {
-      width: 40px; height: 40px; border-radius: 999px;
-      border: 1px solid #2a2a2a; background: #0c0c0c; color: #fff;
-    }
-    .arrow:hover { border-color: var(--accent); color: var(--accent); }
-
-    .track-wrap { position: relative; }
-    .track {
-      display: flex; gap: 12px;
+    .project .desc { color: var(--muted); font-size: 14px; }
+    .shots {
+      display: flex;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      padding: 0 22px 22px;
-      scrollbar-width: thin;
-      scrollbar-color: #333 transparent;
+      scrollbar-width: none;
     }
-    .slide {
-      flex: 0 0 min(78%, 820px);
+    .shots::-webkit-scrollbar { display: none; }
+    .shot {
+      flex: 0 0 100%;
       scroll-snap-align: start;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #171717;
-      border: 1px solid #222;
+      background: #141414;
       min-height: 280px;
     }
-    .slide img {
+    .shot img {
       width: 100%;
       height: 420px;
       object-fit: cover;
       display: block;
     }
+    .dots {
+      display: flex; gap: 6px; justify-content: center;
+      padding: 12px 0 16px;
+    }
+    .dots i {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #3a3a3a;
+    }
+    .dots i.on { background: var(--accent); }
 
     .about-grid, .contact-grid {
       display: grid;
@@ -243,8 +259,8 @@
     @media (max-width: 860px) {
       .nav-links { display: none; }
       .about-grid, .contact-grid { grid-template-columns: 1fr; }
-      .slide { flex-basis: 88%; }
-      .slide img { height: 240px; }
+      .project { flex-basis: 88%; }
+      .shot img { height: 240px; }
       .hero { padding-top: 48px; }
     }
   </style>
@@ -255,6 +271,7 @@
       <a class="logo" href="#">.DaVe<span>Map</span>Design</a>
       <nav class="nav-links">
         <a href="#prace">PRACE</a>
+        <a href="#skrypty">SKRYPTY</a>
         <a href="#o-mnie">O MNIE</a>
         <a href="#kontakt">KONTAKT</a>
       </nav>
@@ -286,119 +303,135 @@
     </section>
 
     <section id="prace">
-      <div class="sec-kicker">/ 02 — PORTFOLIO</div>
-      <h2>Wybrane <em>mapy</em></h2>
-      <p class="sub">Przesuwaj zdjęcia w bok — strzałkami albo przeciągając.</p>
+      <div class="works-head">
+        <div>
+          <div class="sec-kicker">/ 02 — PORTFOLIO</div>
+          <h2>Wybrane <em>mapy</em></h2>
+          <p class="sub">Strzałkami albo przeciągnięciem — kolejna praca jest obok, nie na dole.</p>
+        </div>
+        <div class="slider-nav">
+          <button class="arrow" id="works-prev" type="button" aria-label="Poprzednia praca">←</button>
+          <button class="arrow" id="works-next" type="button" aria-label="Następna praca">→</button>
+        </div>
+      </div>
 
-      <article class="project" data-slider>
-        <div class="project-head">
-          <div>
+      <div class="works" id="works">
+        <article class="project">
+          <div class="project-head">
             <div class="tag">Baza frakcyjna</div>
             <h3>Baza Frakcji SARA</h3>
-            <p class="desc">Cały exterior bazy frakcji SARA.</p>
+            <p class="desc">Kilka ujęć tej samej bazy — przesuń zdjęcie w bok.</p>
           </div>
-          <div class="slider-nav">
-            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
-            <button class="arrow next" type="button" aria-label="Następne">→</button>
+          <div class="shots">
+            <div class="shot"><img src="images/mapa-1.jpg" alt="SARA 1"></div>
+            <div class="shot"><img src="images/mapa-2.jpg" alt="SARA 2"></div>
           </div>
-        </div>
-        <div class="track-wrap">
-          <div class="track">
-            <div class="slide"><img src="images/mapa-1.jpg" alt="Baza SARA 1"></div>
-            <div class="slide"><img src="images/mapa-2.jpg" alt="Baza SARA 2"></div>
-          </div>
-        </div>
-      </article>
+          <div class="dots"><i class="on"></i><i></i></div>
+        </article>
 
-      <article class="project" data-slider>
-        <div class="project-head">
-          <div>
+        <article class="project">
+          <div class="project-head">
             <div class="tag">Lokacja</div>
             <h3>Park Garcia</h3>
             <p class="desc">Idealnie wpasowany park.</p>
           </div>
-          <div class="slider-nav">
-            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
-            <button class="arrow next" type="button" aria-label="Następne">→</button>
+          <div class="shots">
+            <div class="shot"><img src="images/mapa-3.jpg" alt="Park Garcia"></div>
           </div>
-        </div>
-        <div class="track">
-          <div class="slide"><img src="images/mapa-3.jpg" alt="Park Garcia"></div>
-        </div>
-      </article>
+        </article>
 
-      <article class="project" data-slider>
-        <div class="project-head">
-          <div>
+        <article class="project">
+          <div class="project-head">
             <div class="tag">Lokacja</div>
             <h3>Parking Doherty</h3>
-            <p class="desc">Customowy parking w dzielnicy Doherty, tuż obok peronu kolejowego.</p>
+            <p class="desc">Customowy parking obok peronu. W karcie są 2 ujęcia.</p>
           </div>
-          <div class="slider-nav">
-            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
-            <button class="arrow next" type="button" aria-label="Następne">→</button>
+          <div class="shots">
+            <div class="shot"><img src="images/mapa-4.jpg" alt="Parking 1"></div>
+            <div class="shot"><img src="images/mapa-5.jpg" alt="Parking 2"></div>
           </div>
-        </div>
-        <div class="track">
-          <div class="slide"><img src="images/mapa-4.jpg" alt="Parking Doherty 1"></div>
-          <div class="slide"><img src="images/mapa-5.jpg" alt="Parking Doherty 2"></div>
-        </div>
-      </article>
+          <div class="dots"><i class="on"></i><i></i></div>
+        </article>
 
-      <article class="project" data-slider>
-        <div class="project-head">
-          <div>
-            <div class="tag">Exterior</div>
-            <h3>Warsztat</h3>
-            <p class="desc">Hala, podnośniki, biuro i plac manewrowy.</p>
-          </div>
-          <div class="slider-nav">
-            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
-            <button class="arrow next" type="button" aria-label="Następne">→</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="slide"><img src="images/mapa-4.jpg" alt="Warsztat"></div>
-        </div>
-      </article>
-
-      <article class="project" data-slider>
-        <div class="project-head">
-          <div>
-            <div class="tag">Interior</div>
-            <h3>Apartament</h3>
-            <p class="desc">Nowoczesne mieszkanie pod high-tier housing.</p>
-          </div>
-          <div class="slider-nav">
-            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
-            <button class="arrow next" type="button" aria-label="Następne">→</button>
-          </div>
-        </div>
-        <div class="track">
-          <div class="slide"><img src="images/mapa-5.jpg" alt="Apartament"></div>
-        </div>
-      </article>
-
-      <article class="project" data-slider>
-        <div class="project-head">
-          <div>
+        <article class="project">
+          <div class="project-head">
             <div class="tag">Lokacja</div>
             <h3>Stacja benzynowa</h3>
             <p class="desc">Shop, dystrybutory, myjnia i parking TIR.</p>
           </div>
-          <div class="slider-nav">
-            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
-            <button class="arrow next" type="button" aria-label="Następne">→</button>
+          <div class="shots">
+            <div class="shot"><img src="images/mapa-6.jpg" alt="Stacja"></div>
           </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skrypty">
+      <div class="works-head">
+        <div>
+          <div class="sec-kicker">/ 03 — SKRYPTY</div>
+          <h2>Przykładowe <em>skrypty</em></h2>
+          <p class="sub">Skrypty robione z nudów, małe i proste</p>
         </div>
-        <div class="track">
-          <div class="slide"><img src="images/mapa-6.jpg" alt="Stacja benzynowa"></div>
+        <div class="slider-nav">
+          <button class="arrow" id="scripts-prev" type="button" aria-label="Poprzedni skrypt">←</button>
+          <button class="arrow" id="scripts-next" type="button" aria-label="Następny skrypt">→</button>
         </div>
-      </article>
+      </div>
+
+      <div class="works" id="scripts">
+        <article class="project">
+          <div class="project-head">
+            <div class="tag">MTA:SA</div>
+            <h3>System frakcji</h3>
+            <p class="desc">Duty, magazyn, uprawnienia i logi. Przykładowa karta — podmień opis.</p>
+          </div>
+          <div class="shots">
+            <div class="shot"><img src="images/skrypt-1.jpg" alt="System frakcji"></div>
+            <div class="shot"><img src="images/skrypt-2.jpg" alt="System frakcji 2"></div>
+          </div>
+          <div class="dots"><i class="on"></i><i></i></div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <div class="tag">HUD</div>
+            <h3>Custom HUD</h3>
+            <p class="desc">HP, armor, hajs i radar w jednym layoutcie.</p>
+          </div>
+          <div class="shots">
+            <div class="shot"><img src="images/skrypt-3.jpg" alt="HUD"></div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <div class="tag">Biznes</div>
+            <h3>Panel biznesu</h3>
+            <p class="desc">Stan magazynu, pracownicy, utarg. Dwa ujęcia w tej samej karcie.</p>
+          </div>
+          <div class="shots">
+            <div class="shot"><img src="images/skrypt-4.jpg" alt="Biznes 1"></div>
+            <div class="shot"><img src="images/skrypt-5.jpg" alt="Biznes 2"></div>
+          </div>
+          <div class="dots"><i class="on"></i><i></i></div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <div class="tag">Admin</div>
+            <h3>Admin panel</h3>
+            <p class="desc">Szybkie komendy, spec, logi i teleporty.</p>
+          </div>
+          <div class="shots">
+            <div class="shot"><img src="images/skrypt-6.jpg" alt="Admin panel"></div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section id="o-mnie">
-      <div class="sec-kicker">/ 03 — O MNIE</div>
+      <div class="sec-kicker">/ 04 — O MNIE</div>
       <div class="about-grid">
         <div class="panel">
           <h2>Schludnie.<br><em>Pod serwer.</em></h2>
@@ -419,7 +452,7 @@
     </section>
 
     <section id="kontakt">
-      <div class="sec-kicker">/ 04 — KONTAKT</div>
+      <div class="sec-kicker">/ 05 — KONTAKT</div>
       <div class="contact-grid">
         <div class="panel">
           <h2>Zróbmy <em>mapę.</em></h2>
@@ -441,14 +474,30 @@
   </footer>
 
   <script>
-    document.querySelectorAll("[data-slider]").forEach((block) => {
-      const track = block.querySelector(".track");
-      const prev = block.querySelector(".prev");
-      const next = block.querySelector(".next");
-      if (!track) return;
-      const step = () => Math.min(track.clientWidth * 0.86, 840);
-      prev?.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
-      next?.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    const works = document.getElementById("works");
+    const step = () => {
+      const card = works.querySelector(".project");
+      return card ? card.offsetWidth + 18 : 900;
+    };
+    document.getElementById("works-prev").onclick = () => works.scrollBy({ left: -step(), behavior: "smooth" });
+    document.getElementById("works-next").onclick = () => works.scrollBy({ left: step(), behavior: "smooth" });
+
+    const scripts = document.getElementById("scripts");
+    const scriptStep = () => {
+      const card = scripts.querySelector(".project");
+      return card ? card.offsetWidth + 18 : 900;
+    };
+    document.getElementById("scripts-prev").onclick = () => scripts.scrollBy({ left: -scriptStep(), behavior: "smooth" });
+    document.getElementById("scripts-next").onclick = () => scripts.scrollBy({ left: scriptStep(), behavior: "smooth" });
+
+    document.querySelectorAll(".project").forEach((card) => {
+      const shots = card.querySelector(".shots");
+      const dots = [...card.querySelectorAll(".dots i")];
+      if (!shots || !dots.length) return;
+      shots.addEventListener("scroll", () => {
+        const i = Math.round(shots.scrollLeft / shots.clientWidth);
+        dots.forEach((d, n) => d.classList.toggle("on", n === i));
+      });
     });
   </script>
 </body>
