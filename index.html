@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mapper MTA:SA — Portfolio</title>
-  <meta name="description" content="Portfolio mappera MTA:SA — custom mapy, interiory i lokacje." />
+  <title>.DaVe Map Design — Custom mapy MTA:SA</title>
+  <meta name="description" content="Portfolio mappera MTA:SA — custom mapy, interiory, exteriory i lokacje pod serwery RP." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0b0c0e;
-      --panel: #14161a;
-      --line: #2a2e35;
-      --text: #e8eaed;
-      --muted: #9aa3ad;
-      --accent: #c4f542;
-      --accent-2: #3ddc97;
+      --bg: #050505;
+      --bg-2: #0b0b0b;
+      --panel: #101010;
+      --line: #1e1e1e;
+      --text: #f3f3f3;
+      --muted: #9a9a9a;
+      --accent: #8b5cf6;
+      --accent-2: #c4f542;
+      --radius: 14px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -24,266 +26,430 @@
       font-family: Inter, system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.55;
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
-    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    button { font: inherit; cursor: pointer; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background:
+        radial-gradient(900px 420px at 80% -10%, rgba(139,92,246,.28), transparent 60%),
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: auto, 64px 64px, 64px 64px;
+    }
 
     header {
-      position: sticky; top: 0; z-index: 20;
-      background: rgba(11,12,14,.86);
-      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(5,5,5,.82);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
     }
     .nav {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 68px;
+      height: 72px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
     }
-    .logo { font-family: "Bebas Neue", sans-serif; font-size: 28px; letter-spacing: .06em; }
+    .logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 30px;
+      letter-spacing: .06em;
+    }
     .logo span { color: var(--accent); }
-    nav { display: flex; gap: 22px; color: var(--muted); font-size: 14px; font-weight: 600; }
-    nav a:hover { color: var(--text); }
-
-    .hero {
-      padding: 72px 0 48px;
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 40px;
-      align-items: center;
-    }
-    .kicker {
-      color: var(--accent);
-      font-weight: 700;
-      letter-spacing: .16em;
-      text-transform: uppercase;
+    .nav-links { display: flex; gap: 26px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .14em; }
+    .nav-links a:hover { color: var(--text); }
+    .hire {
+      border: 1px solid #3a2a55;
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
       font-size: 12px;
-      margin-bottom: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      display: inline-flex; align-items: center; gap: 8px;
     }
+    .hire i {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #3ddc97; display: inline-block;
+      box-shadow: 0 0 0 4px rgba(61,220,151,.15);
+    }
+
+    .hero { padding: 88px 0 36px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid #2a2a2a;
+      background: rgba(0,0,0,.35);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 11px;
+      letter-spacing: .16em;
+      font-weight: 700;
+      color: #cfcfcf;
+      margin-bottom: 28px;
+    }
+    .pill i { width: 7px; height: 7px; border-radius: 50%; background: #3ddc97; }
     h1 {
       font-family: "Bebas Neue", sans-serif;
-      font-size: clamp(48px, 8vw, 86px);
-      line-height: .9;
-      letter-spacing: .02em;
+      font-size: clamp(64px, 11vw, 128px);
+      line-height: .86;
+      letter-spacing: .01em;
+      max-width: 920px;
     }
-    .hero p { color: var(--muted); margin: 18px 0 28px; max-width: 520px; }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+      display: block;
+    }
+    .lead {
+      margin: 28px 0 34px;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .lead b { color: var(--text); }
+    .lead .hi { color: var(--accent); }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
       background: var(--accent); color: #111;
-      padding: 12px 18px; border-radius: 8px; font-weight: 700;
+      padding: 13px 20px; border-radius: 999px; font-weight: 800;
+      border: 0;
     }
     .btn.ghost {
       background: transparent; color: var(--text);
-      border: 1px solid var(--line);
+      border: 1px solid #2c2c2c;
     }
-    .hero-card {
-      background: linear-gradient(180deg, #1a1d23, #121418);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 22px;
-      min-height: 220px;
-    }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
-    .stat { background: #0e1013; border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-    .stat b { display: block; font-size: 28px; font-family: "Bebas Neue", sans-serif; }
-    .stat span { color: var(--muted); font-size: 13px; }
 
-    section { padding: 28px 0 56px; }
+    .tags {
+      margin-top: 56px;
+      border: 1px solid var(--line);
+      background: rgba(10,10,10,.7);
+      border-radius: 12px;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tags::-webkit-scrollbar { display: none; }
+    .tags span {
+      flex: 1;
+      text-align: center;
+      padding: 16px 18px;
+      font-size: 11px;
+      letter-spacing: .16em;
+      font-weight: 700;
+      color: #bdbdbd;
+      white-space: nowrap;
+      border-right: 1px solid var(--line);
+    }
+    .tags span:last-child { border-right: 0; }
+
+    section { padding: 72px 0; }
+    .sec-kicker {
+      font-size: 12px; letter-spacing: .18em; font-weight: 700; color: #888;
+      margin-bottom: 10px;
+    }
     h2 {
       font-family: "Bebas Neue", sans-serif;
-      font-size: 40px;
-      margin-bottom: 8px;
+      font-size: clamp(40px, 6vw, 64px);
+      line-height: .9;
+      margin-bottom: 10px;
     }
-    .sub { color: var(--muted); margin-bottom: 24px; }
+    h2 em { font-style: normal; color: var(--accent); }
+    .sub { color: var(--muted); margin-bottom: 28px; max-width: 560px; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .card {
-      background: var(--panel);
+    .project {
+      margin: 0 0 28px;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      background: var(--panel);
+      border-radius: 18px;
       overflow: hidden;
     }
-    .thumb {
-      aspect-ratio: 16/10;
-      background:
-        linear-gradient(180deg, transparent 40%, #0b0c0e 100%),
-        #1c2228;
-      display: grid; place-items: center;
-      color: #6d7782;
-      font-size: 13px;
-      position: relative;
+    .project-head {
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+      padding: 20px 22px 14px;
     }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
-    .card-body { padding: 14px 14px 16px; }
     .tag {
       display: inline-block;
-      font-size: 11px; font-weight: 700; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--accent-2);
+      font-size: 11px; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent);
       margin-bottom: 6px;
     }
-    .card h3 { font-size: 18px; margin-bottom: 6px; }
-    .card p { color: var(--muted); font-size: 14px; }
+    .project h3 { font-size: 26px; font-family: "Bebas Neue", sans-serif; letter-spacing: .04em; }
+    .project .desc { color: var(--muted); font-size: 14px; max-width: 520px; }
+    .slider-nav { display: flex; gap: 8px; }
+    .arrow {
+      width: 40px; height: 40px; border-radius: 999px;
+      border: 1px solid #2a2a2a; background: #0c0c0c; color: #fff;
+    }
+    .arrow:hover { border-color: var(--accent); color: var(--accent); }
 
-    .about, .contact {
+    .track-wrap { position: relative; }
+    .track {
+      display: flex; gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 0 22px 22px;
+      scrollbar-width: thin;
+      scrollbar-color: #333 transparent;
+    }
+    .slide {
+      flex: 0 0 min(78%, 820px);
+      scroll-snap-align: start;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #171717;
+      border: 1px solid #222;
+      min-height: 280px;
+    }
+    .slide img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .about-grid, .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+    }
+    .panel {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 18px;
+      padding: 28px;
     }
-    .contact-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+    .stat {
+      background: #0a0a0a;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .stat b { display: block; font-family: "Bebas Neue", sans-serif; font-size: 34px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+
     footer {
       border-top: 1px solid var(--line);
-      color: var(--muted);
-      padding: 22px 0 40px;
+      color: #777;
+      padding: 24px 0 40px;
       font-size: 13px;
     }
 
     @media (max-width: 860px) {
-      .hero, .grid { grid-template-columns: 1fr; }
-      nav { display: none; }
+      .nav-links { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .slide { flex-basis: 88%; }
+      .slide img { height: 240px; }
+      .hero { padding-top: 48px; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap nav">
-      <div class="logo">.DaVe<span>Map</span>Design</div>
-      <nav>
-        <a href="#prace">Prace</a>
-        <a href="#o-mnie">O mnie</a>
-        <a href="#kontakt">Kontakt</a>
+      <a class="logo" href="#">.DaVe<span>Map</span>Design</a>
+      <nav class="nav-links">
+        <a href="#prace">PRACE</a>
+        <a href="#o-mnie">O MNIE</a>
+        <a href="#kontakt">KONTAKT</a>
       </nav>
+      <a class="hire" href="#kontakt"><i></i> HIRE ME</a>
     </div>
   </header>
 
   <main class="wrap">
     <section class="hero">
-      <div>
-        <div class="kicker">Portfolio mappera</div>
-        <h1>Custom mapy<br>do MTA:SA</h1>
-        <p>
-          Tworzę lokacje, interiory i tereny pod serwery MTA:SA.
-          Czyste obiekty, dopracowane detale i mapy gotowe do wrzucenia na serwer.
-        </p>
-        <div class="actions">
-          <a class="btn" href="#prace">Zobacz mapy</a>
-          <a class="btn ghost" href="#kontakt">Napisz na Discord</a>
-        </div>
+      <div class="pill"><i></i> PRZYJMUJĘ NOWE ZLECENIA</div>
+      <h1>Mapy które<br><em>budują serwery.</em></h1>
+      <p class="lead">
+        Jestem <b>.DaVe</b> — mapper pod <span class="hi">MTA:SA</span>.
+        Robię interiory, exteriory, bazy frakcyjne i lokacje gotowe do wrzucenia na serwer.
+        Czyste obiekty, detale i dopasowanie do otoczenia.
+      </p>
+      <div class="actions">
+        <a class="btn" href="#prace">Zobacz prace ↓</a>
+        <a class="btn ghost" href="#kontakt">Napisz w sprawie mapy</a>
       </div>
-      <aside class="hero-card">
-        <div class="kicker">Dostępność</div>
-        <h2 style="font-size:32px;margin:0;">Przyjmuję zlecenia</h2>
-        <p class="sub" style="margin:8px 0 0;">Bazy frakcyjne z wykorzystaniem custom modeli, Interiory, Exteriory, Miejsca pod prace i wiele innych</p>
-        <div class="stats">
-          <div class="stat"><b>10 lat</b><span>doświadczenia w tworzeniu map do</span></div>
-          <div class="stat"><b>MTA</b><span>San Andreas</span></div>
-        </div>
-      </aside>
+      <div class="tags">
+        <span>INTERIORY</span>
+        <span>EXTERIORY</span>
+        <span>BAZY FRAKCYJNE</span>
+        <span>LOKACJE</span>
+        <span>CUSTOM MODELE</span>
+        <span>MTA:SA</span>
+      </div>
     </section>
 
     <section id="prace">
-      <h2>Wybrane mapy</h2>
-      <p class="sub">Poniżej znajdują się zdjęcia <code>images/</code> moich prac.</p>
-      <div class="grid">
-        <article class="card">
-          <div class="thumb">
-  <img src="images/mapa-1.jpg" alt="Baza Frakcji SARA" />
-</div>
-<img src="images/mapa-2.jpg" alt="Komenda 2" style="width:100%;display:block;" />
+      <div class="sec-kicker">/ 02 — PORTFOLIO</div>
+      <h2>Wybrane <em>mapy</em></h2>
+      <p class="sub">Przesuwaj zdjęcia w bok — strzałkami albo przeciągając.</p>
 
-          <div class="card-body">
-            <div class="tag">Baza Frakcyjna</div>
+      <article class="project" data-slider>
+        <div class="project-head">
+          <div>
+            <div class="tag">Baza frakcyjna</div>
             <h3>Baza Frakcji SARA</h3>
-            <p>Cału exterior bazy frakcji SARA</p>
+            <p class="desc">Cały exterior bazy frakcji SARA.</p>
           </div>
-        </article>
-        <article class="card">
-          <div class="thumb">
-            <img src="images/mapa-3.jpg" alt="Park Garcia" onerror="this.remove()" />
-            wrzuć images/mapa-2.jpg
+          <div class="slider-nav">
+            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
+            <button class="arrow next" type="button" aria-label="Następne">→</button>
           </div>
-          <div class="card-body">
+        </div>
+        <div class="track-wrap">
+          <div class="track">
+            <div class="slide"><img src="images/mapa-1.jpg" alt="Baza SARA 1"></div>
+            <div class="slide"><img src="images/mapa-2.jpg" alt="Baza SARA 2"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="project" data-slider>
+        <div class="project-head">
+          <div>
             <div class="tag">Lokacja</div>
             <h3>Park Garcia</h3>
-            <p>Idealnie wpasowany park</p>
+            <p class="desc">Idealnie wpasowany park.</p>
           </div>
-        </article>
-        <article class="card">
-          <div class="thumb">
-            <img src="images/mapa-4.jpg" alt="Baza Frakcji SARA" />
-</div>
-<img src="images/mapa-5.jpg" alt="Komenda 2" style="width:100%;display:block;" />
-          <div class="card-body">
+          <div class="slider-nav">
+            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
+            <button class="arrow next" type="button" aria-label="Następne">→</button>
+          </div>
+        </div>
+        <div class="track">
+          <div class="slide"><img src="images/mapa-3.jpg" alt="Park Garcia"></div>
+        </div>
+      </article>
+
+      <article class="project" data-slider>
+        <div class="project-head">
+          <div>
             <div class="tag">Lokacja</div>
             <h3>Parking Doherty</h3>
-            <p>Customowy parking w dzielnicy Doherty, tuź obok peronu kolejowego</p>
+            <p class="desc">Customowy parking w dzielnicy Doherty, tuż obok peronu kolejowego.</p>
           </div>
-        </article>
-        <article class="card">
-          <div class="thumb">
-            <img src="images/mapa-4.jpg" alt="Warsztat" onerror="this.remove()" />
-            wrzuć images/mapa-4.jpg
+          <div class="slider-nav">
+            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
+            <button class="arrow next" type="button" aria-label="Następne">→</button>
           </div>
-          <div class="card-body">
+        </div>
+        <div class="track">
+          <div class="slide"><img src="images/mapa-4.jpg" alt="Parking Doherty 1"></div>
+          <div class="slide"><img src="images/mapa-5.jpg" alt="Parking Doherty 2"></div>
+        </div>
+      </article>
+
+      <article class="project" data-slider>
+        <div class="project-head">
+          <div>
             <div class="tag">Exterior</div>
             <h3>Warsztat</h3>
-            <p>Hala, podnośniki, biuro i plac manewrowy.</p>
+            <p class="desc">Hala, podnośniki, biuro i plac manewrowy.</p>
           </div>
-        </article>
-        <article class="card">
-          <div class="thumb">
-            <img src="images/mapa-5.jpg" alt="Apartament" onerror="this.remove()" />
-            wrzuć images/mapa-5.jpg
+          <div class="slider-nav">
+            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
+            <button class="arrow next" type="button" aria-label="Następne">→</button>
           </div>
-          <div class="card-body">
+        </div>
+        <div class="track">
+          <div class="slide"><img src="images/mapa-4.jpg" alt="Warsztat"></div>
+        </div>
+      </article>
+
+      <article class="project" data-slider>
+        <div class="project-head">
+          <div>
             <div class="tag">Interior</div>
             <h3>Apartament</h3>
-            <p>Nowoczesne mieszkanie pod high-tier housing.</p>
+            <p class="desc">Nowoczesne mieszkanie pod high-tier housing.</p>
           </div>
-        </article>
-        <article class="card">
-          <div class="thumb">
-            <img src="images/mapa-6.jpg" alt="Stacja benzynowa" onerror="this.remove()" />
-            wrzuć images/mapa-6.jpg
+          <div class="slider-nav">
+            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
+            <button class="arrow next" type="button" aria-label="Następne">→</button>
           </div>
-          <div class="card-body">
+        </div>
+        <div class="track">
+          <div class="slide"><img src="images/mapa-5.jpg" alt="Apartament"></div>
+        </div>
+      </article>
+
+      <article class="project" data-slider>
+        <div class="project-head">
+          <div>
             <div class="tag">Lokacja</div>
             <h3>Stacja benzynowa</h3>
-            <p>Shop, dystrybutory, myjnia i parking TIR.</p>
+            <p class="desc">Shop, dystrybutory, myjnia i parking TIR.</p>
           </div>
-        </article>
-      </div>
+          <div class="slider-nav">
+            <button class="arrow prev" type="button" aria-label="Poprzednie">←</button>
+            <button class="arrow next" type="button" aria-label="Następne">→</button>
+          </div>
+        </div>
+        <div class="track">
+          <div class="slide"><img src="images/mapa-6.jpg" alt="Stacja benzynowa"></div>
+        </div>
+      </article>
     </section>
 
     <section id="o-mnie">
-      <div class="about">
-        <h2>O mnie</h2>
-        <p class="sub" style="margin-bottom:0;">
-          Cześć, jestem <strong>.DaVe</strong>. Mapuję pod MTA:SA już od 10 lat — od małych interiorów po większe lokacje pod serwery RP.
-          Moim priorytetem jest to aby mapa była schludna, estetyczna, dopasowana do otoczenia oraz żeby odpowiadała osobie dla której jest wykonana.
-        </p>
+      <div class="sec-kicker">/ 03 — O MNIE</div>
+      <div class="about-grid">
+        <div class="panel">
+          <h2>Schludnie.<br><em>Pod serwer.</em></h2>
+          <p class="sub" style="margin:16px 0 0;max-width:none;">
+            Cześć, jestem <strong>.DaVe</strong>. Mapuję pod MTA:SA już od 10 lat — od małych interiorów po większe lokacje pod serwery RP.
+            Priorytet: mapa schludna, estetyczna, dopasowana do otoczenia i pod konkretną osobę / serwer.
+          </p>
+        </div>
+        <div class="panel">
+          <div class="tag">Dostępność</div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.03em;">Przyjmuję zlecenia</h3>
+          <div class="stat-row">
+            <div class="stat"><b>10 LAT</b><span>doświadczenia</span></div>
+            <div class="stat"><b>MTA:SA</b><span>San Andreas</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="kontakt">
-      <div class="contact">
-        <h2>Kontakt</h2>
-        <p class="sub">Po mapę / wycenę pisz tutaj:</p>
-        <div class="contact-row">
-          <a class="btn" href="https://discord.com/users/295257285163220996">Discord</a>
-          <a class="btn ghost" href="https://discord.gg/vc3YtAsSqQ">Mój serwer Discord</a>
+      <div class="sec-kicker">/ 04 — KONTAKT</div>
+      <div class="contact-grid">
+        <div class="panel">
+          <h2>Zróbmy <em>mapę.</em></h2>
+          <p class="sub">Po mapę albo wycenę pisz na Discord.</p>
+          <div class="actions">
+            <a class="btn" href="https://discord.com/users/295257285163220996">Discord</a>
+            <a class="btn ghost" href="https://discord.gg/vc3YtAsSqQ">Mój serwer</a>
+          </div>
+        </div>
+        <div class="panel">
+          <p class="sub" style="margin:0;">Bazy frakcyjne z custom modelami, interiory, exteriory, miejsca pod prace i inne lokacje.</p>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="wrap">© 2026 .DaVe — mapy MTA:SA. Wszelkie prawa zastrzeżone.</div>
+    <div class="wrap">© 2026 .DaVe Map Design — mapy MTA:SA.</div>
   </footer>
+
+  <script>
+    document.querySelectorAll("[data-slider]").forEach((block) => {
+      const track = block.querySelector(".track");
+      const prev = block.querySelector(".prev");
+      const next = block.querySelector(".next");
+      if (!track) return;
+      const step = () => Math.min(track.clientWidth * 0.86, 840);
+      prev?.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+      next?.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    });
+  </script>
 </body>
 </html>
